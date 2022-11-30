@@ -12,7 +12,7 @@ import request  from 'request';
    const url = "https://test.wikipedia.org/w/api.php";
 
 // Step 1: GET request to fetch login token
-function getLoginToken() {
+export default function getLoginToken() {
     const params_0 = {
         action: "query",
         meta: "tokens",
@@ -36,8 +36,8 @@ function getLoginToken() {
 function loginRequest(login_token) {
     const params_1 = {
         action: "login",
-        lgname: "bot_username",
-        lgpassword: "bot_password",
+        lgname: process.env.MEDIAWIKI_USERNAME,
+        lgpassword: process.env.MEDIAWIKI_PASSWORD,
         lgtoken: login_token,
         format: "json"
     };
@@ -72,7 +72,7 @@ function editRequest(csrf_token) {
     const params_3 = {
         action: "edit",
         title: "Project:Sandbox",
-        appendtext: "test edit",
+        appendtext: "test1 edit",
         token: csrf_token,
         format: "json"
     };
@@ -86,4 +86,4 @@ function editRequest(csrf_token) {
 }
 
 // Start From Step 1
-getLoginToken();
+// getLoginToken();
