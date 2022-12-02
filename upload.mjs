@@ -72,7 +72,7 @@ function editRequest(csrf_token, callback, pageName, content) {
   const params_3 = {
     action: "edit",
     title: "Data:Sandbox/JosephineBot/uploadTest.tab",
-    appendtext: "test3 edit",
+    appendtext: "text",
     token: csrf_token,
     format: "json",
   };
