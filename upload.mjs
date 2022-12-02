@@ -1,15 +1,13 @@
 /*  
     edit.js
- 
     MediaWiki API Demos
     Demo of `Edit` module: POST request to edit a page
-
     MIT license
 */
 import originalRequest from "request";
 
 const request = originalRequest.defaults({ jar: true });
-const url = "https://commons.wikimedia.org";
+const url = "https://commons.wikimedia.org/w/api.php";
 
 // Step 1: GET request to fetch login token
 export default function getLoginToken(callback, pageName, content) {
@@ -71,8 +69,14 @@ function getCsrfToken(callback, pageName, content) {
 function editRequest(csrf_token, callback, pageName, content) {
   const params_3 = {
     action: "edit",
-    title: "Data:Sandbox/JosephineBot/uploadTest.tab",
-    appendtext: "text",
+    title: "Data:Sandbox/Iamkl0209/uploadTest.tab",
+    text: JSON.stringify({
+      license: "CC0-1.0",
+      schema: {
+        fields: [],
+      },
+      data: [],
+    }),
     token: csrf_token,
     format: "json",
   };
@@ -82,7 +86,6 @@ function editRequest(csrf_token, callback, pageName, content) {
       return;
     }
     callback();
-
     console.log(body);
   });
 }
@@ -94,6 +97,6 @@ getLoginToken(
   () => {
     console.log("success");
   },
-  "Wikipedia:Sandbox",
+  "Data:Sandbox/Iamkl0209/uploadTest.tab",
   "test"
 );
