@@ -6,13 +6,13 @@
 
     MIT license
 */
-import request  from 'request';
+import originalRequest  from 'request';
 
-// var request = require('request').defaults({jar: true}),
+const request = originalRequest.defaults({jar: true});
    const url = "https://test.wikipedia.org/w/api.php";
 
 // Step 1: GET request to fetch login token
-export default function getLoginToken() {
+export default function getLoginToken(callback, pageName, content) {
     const params_0 = {
         action: "query",
         meta: "tokens",
@@ -25,7 +25,7 @@ export default function getLoginToken() {
             return;
         }
         const data = JSON.parse(body);
-        loginRequest(data.query.tokens.logintoken);
+        loginRequest(data.query.tokens.logintoken, callback, pageName, content);
     });
 }
 
@@ -33,7 +33,7 @@ export default function getLoginToken() {
 // Use of main account for login is not
 // supported. Obtain credentials via Special:BotPasswords
 // (https://www.mediawiki.org/wiki/Special:BotPasswords) for lgname & lgpassword
-function loginRequest(login_token) {
+function loginRequest(login_token, callback, pageName, content) {
     const params_1 = {
         action: "login",
         lgname: process.env.MEDIAWIKI_USERNAME,
@@ -46,12 +46,12 @@ function loginRequest(login_token) {
         if (error) {
             return;
         }
-        getCsrfToken();
+        getCsrfToken(callback, pageName, content);
     });
 }
 
 // Step 3: GET request to fetch CSRF token
-function getCsrfToken() {
+function getCsrfToken(callback, pageName, content) {
     const params_2 = {
         action: "query",
         meta: "tokens",
@@ -63,16 +63,16 @@ function getCsrfToken() {
             return;
         }
         const data = JSON.parse(body);
-        editRequest(data.query.tokens.csrftoken);
+        editRequest(data.query.tokens.csrftoken, callback, pageName, content);
     });
 }
 
 // Step 4: POST request to edit a page
-function editRequest(csrf_token) {
+function editRequest(csrf_token, callback, pageName, content) {
     const params_3 = {
         action: "edit",
         title: "Project:Sandbox",
-        appendtext: "test1 edit",
+        appendtext: "test3 edit",
         token: csrf_token,
         format: "json"
     };
@@ -80,10 +80,18 @@ function editRequest(csrf_token) {
     request.post({ url: url, form: params_3 }, function (error, res, body) {
         if (error) {
             return;
+
         }
+        callback()
+       
+
         console.log(body);
     });
 }
 
 // Start From Step 1
-// getLoginToken();
+import * as dotenv from 'dotenv'
+dotenv.config();
+ getLoginToken(() => {
+     console.log('success')
+ },'Wikipedia:Sandbox', 'test');
