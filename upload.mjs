@@ -69,14 +69,8 @@ function getCsrfToken(callback, pageName, content) {
 function editRequest(csrf_token, callback, pageName, content) {
   const params_3 = {
     action: "edit",
-    title: "Data:Sandbox/Iamkl0209/uploadTest.tab",
-    text: JSON.stringify({
-      license: "CC0-1.0",
-      schema: {
-        fields: [],
-      },
-      data: [],
-    }),
+    title: pageName,
+    text: JSON.stringify(content),
     token: csrf_token,
     format: "json",
   };
@@ -91,12 +85,12 @@ function editRequest(csrf_token, callback, pageName, content) {
 }
 
 // Start From Step 1
-import * as dotenv from "dotenv";
-dotenv.config();
-getLoginToken(
-  () => {
-    console.log("success");
-  },
-  "Data:Sandbox/Iamkl0209/uploadTest.tab",
-  "test"
-);
+// import * as dotenv from "dotenv";
+// dotenv.config();
+// getLoginToken(
+//   () => {
+//     console.log("success:");
+//   },
+//   "Data:Sandbox/JosephineBot/uploadTest.tab",
+//   "test"
+// );
