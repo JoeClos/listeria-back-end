@@ -1,5 +1,5 @@
 // require('dotenv').config();
-import request from "request";
+// import request from "request";
 import upload from "./upload.mjs";
 import express from "express";
 import * as dotenv from "dotenv";
@@ -7,7 +7,7 @@ import cors from 'cors';
 dotenv.config();
 
 const app = express();
-const port = 8080;
+const port = parseInt(process.env.PORT, 10) || 8000;
 // app.use(express.urlencoded({extended: true}))
 app.use(express.json());
 app.use(cors())
